@@ -18,19 +18,5 @@ const fetchImages = async (q, page = 1) => {
   });
   return data;
 };
-// const fetchImages = async (q, page, per_page) => {
-//   let searchParams = new URLSearchParams({
-//     q,
-//     page,
-//     per_page,
-//   });
-
-//   try {
-//     const { data } = await instance.get(`/?${searchParams}`);
-//     return data;
-//   } catch (error) {
-//     Report.failure('Something went wrong, please try again', error.message);
-//   }
-// };
 
 export default fetchImages;

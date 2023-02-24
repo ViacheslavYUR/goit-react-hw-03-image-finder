@@ -3,11 +3,13 @@ import { Component } from 'react';
 
 import Searchbar from 'components/Searchbar/Searchbar';
 import ImageGallery from 'components/ImageGallery/ImageGallery';
-import fetchImages from 'shared/service/image-api';
+import fetchImages from 'shared/services/image-api';
 import Modal from 'shared/Modal/Modal';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+import Button from 'shared/Button/Button';
 
 import css from './styles.css';
+import Loader from 'shared/LoaderSpiner/LoaderSpiner';
 // import axios from 'axios';
 
 // const API_KEY = '32167843-8e8cdf0804a85ffadb96a7b65';
@@ -25,6 +27,9 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { search, page } = this.state;
+    if (prevState.search !== search) {
+      this.setState({ gallery: [] });
+    }
     if (prevState.search !== search || prevState.page !== page) {
       this.fetchImage();
     }
@@ -67,19 +72,18 @@ class App extends Component {
   };
 
   render() {
-    const { gallery, search, error, loading, showModal, largeImage } = this.state;
+    const { gallery, error, loading, showModal, largeImage } = this.state;
     return (
       <>
         <Searchbar onSubmit={this.searchImage} />
         <main>
           <ImageGallery items={gallery} showImage={this.showImage} />
-          {search && !gallery.length && <p> Not found, try search any one else ...</p>}
           {error && <p>{error}</p>}
-          {loading && <p>loading ...</p>}
+          {loading && <Loader />}
           {gallery.length !== 0 && (
-            <button type="submit" className={css.button} onClick={this.loadMore}>
+            <Button loadMore={this.loadMore}>
               <span className={css.buttonLabel}>Load more</span>
-            </button>
+            </Button>
           )}
         </main>
         {showModal && (

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import css from './image-gallery.module.css';
 
@@ -21,3 +22,8 @@ const ImageGallery = ({ items, showImage }) => {
 };
 
 export default ImageGallery;
+
+ImageGallery.propTypes = {
+  items: PropTypes.array.isRequired,
+  showImage: PropTypes.func,
+};

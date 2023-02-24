@@ -1,7 +1,9 @@
 import { Component } from 'react';
+import { createPortal } from 'react-dom';
+
+import PropTypes from 'prop-types';
 
 import css from './modal.module.css';
-import { createPortal } from 'react-dom';
 
 const modalPortal = document.querySelector('#modal-root');
 
@@ -14,14 +16,14 @@ class Modal extends Component {
     document.removeEventListener('keydown', this.closeModal);
   }
 
-  closeModal = ({ curentTarget, target, code }) => {
-    if (curentTarget === target || code === 'Escape') {
+  closeModal = ({ currentTarget, target, code }) => {
+    if (currentTarget === target || code === 'Escape') {
       console.log(code);
       this.props.close();
     }
   };
   render() {
-    const { children, close } = this.props;
+    const { children } = this.props;
     return createPortal(
       <div className={css.overlay} onClick={this.closeModal}>
         <div className={css.modal}>{children}</div>
@@ -32,3 +34,8 @@ class Modal extends Component {
 }
 
 export default Modal;
+
+Modal.propTypes = {
+  close: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
+};
